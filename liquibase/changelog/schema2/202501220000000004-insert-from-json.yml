@@ -3,10 +3,28 @@ databaseChangeLog:
       id: 20250122-04
       author: developer
       changes:
-        - sqlFile:
-            path: sql/schema2/insert-payment-transactions-from-json.sql
-            relativeToChangelogFile: false
-            splitStatements: false
+        - sql:
+            sql: |
+              INSERT INTO schema2.payment_transactions (order_id, amount, payment_method, status)
+              SELECT 
+                (data->>'order_id')::bigint as order_id,
+                (data->>'amount')::decimal as amount,
+                data->>'payment_method' as payment_method,
+                data->>'status' as status
+              FROM json_array_elements('[
+                {
+                  "order_id": 1,
+                  "amount": 99.99,
+                  "payment_method": "CREDIT_CARD",
+                  "status": "COMPLETED"
+                },
+                {
+                  "order_id": 2,
+                  "amount": 199.99,
+                  "payment_method": "BANK_TRANSFER",
+                  "status": "PENDING"
+                }
+              ]'::json) as data;
       rollback:
         - delete:
             tableName: payment_transactions

@@ -23,7 +23,7 @@ databaseChangeLog:
                   name: status
                   type: STRING
       rollback:
-        - delete:
-            tableName: payment_transactions
-            schemaName: schema2
-            where: id IN (SELECT id FROM payment_transactions WHERE transaction_date >= '2025-01-22')
+        - sql:
+            sql: |
+              -- No rollback provided as this is a data correction
+              -- You might want to backup data before running this update
