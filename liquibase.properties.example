@@ -1,0 +1,21 @@
+# Database connection settings
+changeLogFile=liquibase/changelog/master.yml
+url=jdbc:postgresql://<host>:<port>/<database>?ssl=require
+username=<your-username>
+password=<your-password>
+
+# Liquibase settings
+liquibase.hub.mode=off
+logLevel=INFO
+driver=org.postgresql.Driver
+
+# Format settings
+outputFileEncoding=UTF-8
+
+# Logging
+liquibase.logFile=liquibase.log
+liquibase.logLevel=INFO
+
+# Performance settings
+databaseChangeLogLockTableName=databasechangeloglock
+databaseChangeLogTableName=databasechangelog
