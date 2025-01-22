@@ -3,6 +3,11 @@ name: Liquibase Rollback
 on:
   workflow_dispatch:
     inputs:
+      count:
+        description: 'Number of changes to rollback'
+        type: number
+        required: false
+        default: 1
       force:
         description: 'Force execution'
         type: boolean
@@ -15,11 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Liquibase Rollback
-        uses: liquibase-github-actions/rollback-one-update@v4.31.0
+        uses: liquibase-github-actions/rollback-count@v4.31.0
         with:
           changelogFile: liquibase/changelog/master.yml
           url: ${{ secrets.DB_URL }}
           username: ${{ secrets.DB_USERNAME }}
           password: ${{ secrets.DB_PASSWORD }}
           driver: org.postgresql.Driver
-          force: ${{ inputs.force }}
+          count: ${{ inputs.count }}
