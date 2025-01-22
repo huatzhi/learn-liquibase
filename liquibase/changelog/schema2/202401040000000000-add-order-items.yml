@@ -44,20 +44,14 @@ databaseChangeLog:
                     nullable: true
         - sqlFile:
             path: sql/schema2/create-updated-at-function.sql
-            endDelimiter: //
-            stripComments: true
-            splitStatements: true
+            splitStatements: false
         - sqlFile:
             path: sql/schema2/create-updated-at-trigger.sql
-            endDelimiter: //
-            stripComments: true
-            splitStatements: true
+            splitStatements: false
       rollback:
         - sqlFile:
             path: sql/schema2/drop-updated-at-trigger-and-function.sql
-            endDelimiter: //
-            stripComments: true
-            splitStatements: true
+            splitStatements: false
         - dropTable:
             tableName: order_items
             schemaName: schema2
