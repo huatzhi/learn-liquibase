@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-02
+      author: developer
+      changes:
+        - insert:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: order_id
+                  valueNumeric: 1
+              - column:
+                  name: amount
+                  valueNumeric: 99.99
+              - column:
+                  name: payment_method
+                  value: "CREDIT_CARD"
+              - column:
+                  name: status
+                  value: "COMPLETED"
+      rollback:
+        # Delete in reverse order due to foreign key constraints
+        - delete:
+            tableName: payment_transactions
+            schemaName: schema2
+            where: order_id = 1

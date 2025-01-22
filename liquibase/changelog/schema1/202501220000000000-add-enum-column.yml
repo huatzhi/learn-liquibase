@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-01
+      author: developer
+      changes:
+        # Add a new ENUM type for the column in the schema
+        - sql:
+            splitStatements: false
+            sql: |
+              CREATE TYPE schema1.user_status_enum AS ENUM ('active', 'inactive', 'banned');
+
+        # Add the ENUM column with a comment
+        - addColumn:
+            tableName: users
+            schemaName: schema1
+            columns:
+              - column:
+                  name: user_status
+                  type: schema1.user_status_enum
+                  remarks: "Status of the user (active, inactive, banned)"
+                  defaultValue: 'active'
+                  constraints:
+                    nullable: false
+
+      rollback:
+        # Remove the column first
+        - dropColumn:
+            tableName: users
+            columnName: user_status
+            schemaName: schema1
+
+        # Then drop the ENUM type
+        - sql:
+            splitStatements: false
+            sql: |
+              DROP TYPE IF EXISTS schema1.user_status_enum;

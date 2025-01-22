@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-01
+      author: developer
+      changes:
+        - createTable:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_method
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transaction_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+        - createIndex:
+            indexName: idx_payment_transactions_order_id
+            schemaName: schema2
+            tableName: payment_transactions
+            columns:
+              - column:
+                  name: order_id
+      rollback:
+        - dropTable:
+            tableName: payment_transactions
+            schemaName: schema2

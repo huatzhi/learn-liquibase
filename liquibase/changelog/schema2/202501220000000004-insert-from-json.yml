@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-04
+      author: developer
+      changes:
+        - sqlFile:
+            path: sql/schema2/insert-payment-transactions-from-json.sql
+            relativeToChangelogFile: false
+            splitStatements: false
+      rollback:
+        - delete:
+            tableName: payment_transactions
+            schemaName: schema2
+            where: order_id IN (1, 2)

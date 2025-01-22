@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-06
+      author: developer
+      changes:
+        - update:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: status
+                  value: "FAILED"
+              - column:
+                  name: transaction_date
+                  valueComputed: CURRENT_TIMESTAMP
+            where: id = 1
+      rollback:
+        - update:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: status
+                  value: "COMPLETED"
+            where: id = 1

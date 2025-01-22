@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-03
+      author: developer
+      changes:
+        - loadData:
+            tableName: payment_transactions
+            schemaName: schema2
+            file: data/payment-transactions.csv
+            separator: ','
+            encoding: UTF-8
+            columns:
+              - column:
+                  name: order_id
+                  type: NUMERIC
+              - column:
+                  name: amount
+                  type: NUMERIC
+              - column:
+                  name: payment_method
+                  type: STRING
+              - column:
+                  name: status
+                  type: STRING
+      rollback:
+        - delete:
+            tableName: payment_transactions
+            schemaName: schema2
+            where: id IN (SELECT id FROM payment_transactions WHERE transaction_date >= '2025-01-22')

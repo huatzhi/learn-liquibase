@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-07
+      author: developer
+      changes:
+        - update:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: status
+                  value: COMPLETED
+              - column:
+                  name: transaction_date
+                  valueComputed: CURRENT_TIMESTAMP
+            where: payment_method = 'BANK_TRANSFER' AND status = 'PENDING' AND transaction_date < (CURRENT_TIMESTAMP - interval '24 hours')
+      rollback:
+        - update:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: status
+                  value: PENDING
+            where: payment_method = 'BANK_TRANSFER' AND status = 'COMPLETED' AND transaction_date >= '2025-01-22'

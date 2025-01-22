@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-01
+      author: developer
+      changes:
+        # First, create the pgvector extension
+        - sql:
+            sql: CREATE EXTENSION IF NOT EXISTS vector;
+            
+        # Then add the vector column
+        - addColumn:
+            tableName: users
+            schemaName: schema1
+            columns:
+              - column:
+                  name: embedding_vector
+                  type: vector(1536)
+                  remarks: "Embedding vector for AI analysis"
+                  constraints:
+                    nullable: true
+                    
+        - setColumnRemarks:
+            tableName: users
+            schemaName: schema1
+            columnName: embedding_vector
+            remarks: "Updated: Embedding vector used for AI-based analysis"
+            
+      rollback:
+        # First drop the column
+        - dropColumn:
+            tableName: users
+            columnName: embedding_vector
+            schemaName: schema1
+            
+        # Then drop the extension if not needed by other tables
+        - sql:
+            sql: DROP EXTENSION IF EXISTS vector;

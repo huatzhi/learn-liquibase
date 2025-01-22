@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-08
+      author: developer
+      changes:
+        - sql:
+            sql: |
+              UPDATE schema2.payment_transactions pt
+              SET amount = oi.calculated_amount
+              FROM (
+                SELECT 
+                  order_id,
+                  SUM(price * quantity) as calculated_amount
+                FROM schema2.order_items
+                GROUP BY order_id
+              ) oi
+              WHERE pt.order_id = oi.order_id
+              AND pt.amount != oi.calculated_amount;
+      rollback:
+        - sql:
+            sql: |
+              -- No rollback provided as this is a data correction
+              -- You might want to backup data before running this update

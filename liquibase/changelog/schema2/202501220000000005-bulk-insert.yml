@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20250122-05
+      author: developer
+      changes:
+        - insert:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: order_id
+                  value: 1
+              - column:
+                  name: amount
+                  value: 99.99
+              - column:
+                  name: payment_method
+                  value: CREDIT_CARD
+              - column:
+                  name: status
+                  value: COMPLETED
+        - insert:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: order_id
+                  value: 2
+              - column:
+                  name: amount
+                  value: 149.99
+              - column:
+                  name: payment_method
+                  value: BANK_TRANSFER
+              - column:
+                  name: status
+                  value: PENDING
+        - insert:
+            tableName: payment_transactions
+            schemaName: schema2
+            columns:
+              - column:
+                  name: order_id
+                  value: 3
+              - column:
+                  name: amount
+                  value: 199.99
+              - column:
+                  name: payment_method
+                  value: PAYPAL
+              - column:
+                  name: status
+                  value: COMPLETED
+      rollback:
+        - delete:
+            tableName: payment_transactions
+            schemaName: schema2
+            where: order_id IN (1, 2, 3)
