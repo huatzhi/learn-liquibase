@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240301-01
+      author: developer
+      changes:
+        - addColumn:
+            tableName: users
+            schemaName: schema1
+            columns:
+              - column:
+                  name: last_login
+                  type: timestamp
+                  constraints:
+                    nullable: true
+        - sql:
+            comment: Update existing users last_login
+            sql: UPDATE schema1.users SET last_login = created_at;
+      rollback:
+        - dropColumn:
+            tableName: users
+            schemaName: schema1
+            columnName: last_login
+
+  - changeSet:
+      id: 20240301-02
+      author: developer
+      changes:
+        - createView:
+            viewName: active_users
+            schemaName: schema1
+            selectQuery: |
+              SELECT u.*, p.full_name 
+              FROM schema1.users u 
+              JOIN schema1.profiles p ON u.id = p.user_id
+              WHERE u.last_login > CURRENT_TIMESTAMP - INTERVAL '30 days'
+      rollback:
+        - dropView:
+            viewName: active_users
+            schemaName: schema1

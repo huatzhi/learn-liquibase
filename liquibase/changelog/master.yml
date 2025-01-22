@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - includeAll:
+      path: schema1
+      relativeToChangelogFile: true
+      errorIfMissingOrEmpty: true
+  - includeAll:
+      path: schema2
+      relativeToChangelogFile: true
+      errorIfMissingOrEmpty: true

@@ -1,0 +1,25 @@
+name: Liquibase Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force execution'
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  rollback-database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Liquibase Rollback
+        uses: liquibase-github-actions/rollback-one-update@v4.31.0
+        with:
+          changelogFile: liquibase/changelog/master.yml
+          url: ${{ secrets.DB_URL }}
+          username: ${{ secrets.DB_USERNAME }}
+          password: ${{ secrets.DB_PASSWORD }}
+          driver: org.postgresql.Driver
+          force: ${{ inputs.force }}

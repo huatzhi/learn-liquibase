@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240215-01
+      author: developer
+      changes:
+        - createTable:
+            tableName: order_items
+            schemaName: schema2
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_order_items_orders
+                    references: schema2.orders(id)
+                    deleteCascade: true
+              - column:
+                  name: product_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: true
+        - sqlFile:
+            path: sql/schema2/create-updated-at-function.sql
+            stripComments: true
+        - sqlFile:
+            path: sql/schema2/create-updated-at-trigger.sql
+            stripComments: true
+      rollback:
+        - sqlFile:
+            path: sql/schema2/drop-updated-at-trigger-and-function.sql
+            stripComments: true
+        - dropTable:
+            tableName: order_items
+            schemaName: schema2

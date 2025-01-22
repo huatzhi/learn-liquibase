@@ -1,0 +1,41 @@
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Liquibase specific
+liquibase.properties
+!liquibase-example.properties
+*.log
+*.log.gz
+changelog.xml
+
+# Generated SQL files
+generated/
+sql/generated/
+
+# Environment specific files
+.env
+*.env
+env.local
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Temporary and backup files
+*.bak
+*.tmp
+*.temp
+
+# Compiled class files (if using Java-based extensions)
+*.class
+
+# Debug logs
+debug.log
+liquibase-debug.log
+
+# Misc
+.setting

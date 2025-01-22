@@ -1,0 +1,24 @@
+name: Liquibase Update
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'liquibase/**'
+  workflow_dispatch:
+
+jobs:
+  update-database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Liquibase Update
+        uses: liquibase-github-actions/update@v4.31.0
+        with:
+          changelogFile: liquibase/changelog/master.yml
+          url: ${{ secrets.DB_URL }}
+          username: ${{ secrets.DB_USERNAME }}
+          password: ${{ secrets.DB_PASSWORD }}
+          driver: org.postgresql.Driver
+          showSummary: verbose
+          showSummaryOutput: all

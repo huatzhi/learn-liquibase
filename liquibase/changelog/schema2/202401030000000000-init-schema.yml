@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240102-01
+      author: developer
+      changes:
+        - createTable:
+            tableName: orders
+            schemaName: schema2
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_orders_users
+                    references: schema1.users(id)
+              - column:
+                  name: status
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+        - createIndex:
+            indexName: idx_orders_user_id
+            schemaName: schema2
+            tableName: orders
+            columns:
+              - column:
+                  name: user_id
+        - addNotNullConstraint:
+            tableName: orders
+            schemaName: schema2
+            columnName: status
+            columnDataType: varchar(20)
+            defaultNullValue: "PENDING"

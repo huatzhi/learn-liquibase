@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20240115-01
+      author: developer
+      changes:
+        - createIndex:
+            indexName: idx_users_email
+            schemaName: schema1
+            tableName: users
+            columns:
+              - column:
+                  name: email
+        - createIndex:
+            indexName: idx_profiles_user_id
+            schemaName: schema1
+            tableName: profiles
+            columns:
+              - column:
+                  name: user_id
